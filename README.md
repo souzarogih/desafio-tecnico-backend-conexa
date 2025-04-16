@@ -91,3 +91,9 @@ Necessário descrever, ou prover, todas as dependências e ações necessárias 
 **Lembre-se que uma aplicação boa é uma aplicação bem testada;**
 
 Em caso de dúvidas sobre o desafio, entre em contato.
+
+
+#### Comando para executar a aplicação terminal
+```bash
+./mvnw spring-boot:run
+```

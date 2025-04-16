@@ -1,0 +1,7 @@
+CREATE DATABASE IF NOT EXISTS conexa_backend;
+
+CREATE USER IF NOT EXISTS 'user'@'%' IDENTIFIED BY '123mudar';
+
+GRANT ALL PRIVILEGES ON conexa_backend.* TO 'user'@'%';
+
+FLUSH PRIVILEGES;
