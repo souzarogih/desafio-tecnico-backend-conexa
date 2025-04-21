@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: conexa-backend
+  datasource:
+    url: jdbc:mysql://localhost:3306/conexa_backend
+    username: user
+    password: 123mudar
+#    url: ${URL:jdbc:mysql://localhost:3306/conexa_backend}
+#    username: ${USERNAME:user}
+#    password: ${PASSWORD:123mudar}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+    port: 8080
+    servlet:
+      context-path: ${CONTEXT_PATH:/api/v1}
+
+jwt:
+  secret: yAD7NEm7cOtWYvK6avL+3W7swuTtMnw9ycUbN+u45U0=
