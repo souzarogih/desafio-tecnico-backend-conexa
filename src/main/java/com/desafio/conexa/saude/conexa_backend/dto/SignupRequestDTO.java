@@ -3,7 +3,6 @@ package com.desafio.conexa.saude.conexa_backend.dto;
 import com.desafio.conexa.saude.conexa_backend.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.br.CPF;
 
