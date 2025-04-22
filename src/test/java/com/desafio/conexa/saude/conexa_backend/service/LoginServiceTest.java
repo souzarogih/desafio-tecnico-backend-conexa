@@ -9,6 +9,7 @@ import com.desafio.conexa.saude.conexa_backend.model.User;
 import com.desafio.conexa.saude.conexa_backend.model.UserPassword;
 import com.desafio.conexa.saude.conexa_backend.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -69,6 +70,7 @@ class LoginServiceTest {
     }
 
     @Test
+    @DisplayName("Should return token when credentials are valid on login")
     void login_shouldReturnToken_whenCredentialsAreValid() {
         when(userRepository.findByEmail(loginRequest.email())).thenReturn(Optional.of(user));
         when(jwtService.generateToken(any(UserDetails.class))).thenReturn("jwt-token");
@@ -82,6 +84,7 @@ class LoginServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw exception when user is not found on login")
     void login_shouldThrowException_whenUserNotFound() {
 
         when(userRepository.findByEmail(loginRequest.email())).thenReturn(Optional.empty());
@@ -90,6 +93,7 @@ class LoginServiceTest {
     }
 
     @Test
+    @DisplayName("Should return UserDTO when logged-in user exists")
     void getLoggedInUser_shouldReturnUserDTO_whenUserExists() {
 
         when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
@@ -100,6 +104,7 @@ class LoginServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw exception when logged-in user does not exist")
     void getLoggedInUser_shouldThrowException_whenUserDoesNotExist() {
 
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());

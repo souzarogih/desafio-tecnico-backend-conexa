@@ -1,5 +1,6 @@
 package com.desafio.conexa.saude.conexa_backend.service;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,6 +20,7 @@ class LogoffServiceTest {
     private LogoffService logoffService;
 
     @Test
+    @DisplayName("Should revoke token successfully and return true on logoff")
     void logoff_shouldRevokeTokenSuccessfully_andReturnTrue() {
 
         String token = "fake-jwt-token";
@@ -28,6 +30,7 @@ class LogoffServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw exception when RevokedTokensService fails on logoff")
     void logoff_shouldThrowException_whenRevokedTokensServiceFails() {
 
         String token = "invalid-token";

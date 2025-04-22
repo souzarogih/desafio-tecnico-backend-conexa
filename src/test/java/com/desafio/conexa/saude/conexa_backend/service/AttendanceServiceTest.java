@@ -6,6 +6,7 @@ import com.desafio.conexa.saude.conexa_backend.model.Attendance;
 import com.desafio.conexa.saude.conexa_backend.model.Patient;
 import com.desafio.conexa.saude.conexa_backend.model.User;
 import com.desafio.conexa.saude.conexa_backend.repository.AttendanceRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -45,6 +46,7 @@ class AttendanceServiceTest {
     private final User USER = User.builder().id(USER_ID).email(EMAIL).build();
 
     @Test
+    @DisplayName("Should create attendance successfully")
     void shouldCreateAttendanceSuccessfully() {
         AttendanceRequest request = new AttendanceRequest(FUTURE_DATE, PATIENT);
 
@@ -59,6 +61,7 @@ class AttendanceServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw exception when date is in the past")
     void shouldThrowWhenDateIsInPast() {
         AttendanceRequest request = new AttendanceRequest(PAST_DATE, PATIENT);
 
@@ -69,6 +72,7 @@ class AttendanceServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw exception when schedule already exists")
     void shouldThrowWhenScheduleAlreadyExists() {
         AttendanceRequest request = new AttendanceRequest(FUTURE_DATE, PATIENT);
         Attendance existing = new Attendance("123", FUTURE_DATE, FUTURE_DATE.toLocalDate(), FUTURE_DATE.toLocalTime(), PATIENT, USER, false);
@@ -83,6 +87,7 @@ class AttendanceServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw exception when user is not found")
     void shouldThrowWhenUserNotFound() {
         AttendanceRequest request = new AttendanceRequest(FUTURE_DATE, PATIENT);
 
@@ -95,6 +100,7 @@ class AttendanceServiceTest {
     }
 
     @Test
+    @DisplayName("Should find attendance by ID successfully")
     void shouldFindByIdSuccessfully() {
         Attendance attendance = new Attendance(ATTENDANCE_ID, FUTURE_DATE, FUTURE_DATE.toLocalDate(), FUTURE_DATE.toLocalTime(), PATIENT, USER, false);
 
@@ -106,6 +112,7 @@ class AttendanceServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw exception when attendance is not found")
     void shouldThrowWhenAttendanceNotFound() {
         when(attendanceRepository.findById(ATTENDANCE_ID)).thenReturn(Optional.empty());
 
@@ -116,6 +123,7 @@ class AttendanceServiceTest {
     }
 
     @Test
+    @DisplayName("Should find all attendances by date")
     void shouldFindAllByDate() {
         LocalDate date = FUTURE_DATE.toLocalDate();
         Attendance att = new Attendance("1", FUTURE_DATE, date, FUTURE_DATE.toLocalTime(), PATIENT, USER, false);
@@ -128,6 +136,7 @@ class AttendanceServiceTest {
     }
 
     @Test
+    @DisplayName("Should carry out consultation successfully")
     void shouldCarryOutConsultationSuccessfully() {
         Attendance att = new Attendance(ATTENDANCE_ID, FUTURE_DATE, FUTURE_DATE.toLocalDate(), FUTURE_DATE.toLocalTime(), PATIENT, USER, false);
 
@@ -140,6 +149,7 @@ class AttendanceServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw exception when trying to complete consultation with invalid ID")
     void shouldThrowWhenCarryingOutConsultationWithInvalidId() {
         when(attendanceRepository.findById(ATTENDANCE_ID)).thenReturn(Optional.empty());
 

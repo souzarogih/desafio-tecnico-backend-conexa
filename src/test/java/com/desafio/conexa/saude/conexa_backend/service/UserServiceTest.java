@@ -6,6 +6,7 @@ import com.desafio.conexa.saude.conexa_backend.model.UserPassword;
 import com.desafio.conexa.saude.conexa_backend.repository.SignupRepository;
 import com.desafio.conexa.saude.conexa_backend.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -47,6 +48,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Should return user details if username exists")
     void loadUserByUsername_shouldReturnUserDetails_whenUserExists() {
 
         when(signupRepository.findByEmail("user@example.com")).thenReturn(Optional.of(user));
@@ -59,6 +61,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw exception if username is not found")
     void loadUserByUsername_shouldThrowException_whenUserNotFound() {
 
         when(signupRepository.findByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
@@ -67,6 +70,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Should return user when email exists")
     void findByEmail_shouldReturnUserOptional_whenUserExists() {
 
         when(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(user));
@@ -76,6 +80,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Should return empty when user doesn't exist")
     void findByEmail_shouldReturnEmptyOptional_whenUserDoesNotExist() {
 
         when(userRepository.findByEmail("missing@example.com")).thenReturn(Optional.empty());

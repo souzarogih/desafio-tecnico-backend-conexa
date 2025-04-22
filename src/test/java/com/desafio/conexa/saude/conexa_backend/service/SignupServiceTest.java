@@ -5,6 +5,7 @@ import com.desafio.conexa.saude.conexa_backend.enums.Role;
 import com.desafio.conexa.saude.conexa_backend.model.User;
 import com.desafio.conexa.saude.conexa_backend.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -55,6 +56,7 @@ class SignupServiceTest {
     }
 
     @Test
+    @DisplayName("Should register successfully with a valid request")
     void signup_shouldRegisterSuccessfully_whenValidRequest() {
 
         when(userRepository.findByEmail(validRequest.email())).thenReturn(Optional.empty());
@@ -68,6 +70,7 @@ class SignupServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw exception when email already exists")
     void signup_shouldThrowException_whenEmailAlreadyExists() {
 
         when(userRepository.findByEmail(validRequest.email()))
@@ -80,6 +83,7 @@ class SignupServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw exception when CPF already exists")
     void signup_shouldThrowException_whenCpfAlreadyExists() {
 
         when(userRepository.findByEmail(validRequest.email())).thenReturn(Optional.empty());
@@ -93,6 +97,7 @@ class SignupServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw exception when passwords don't match")
     void signup_shouldThrowException_whenPasswordsDoNotMatch() {
 
         SignupRequestDTO invalidPasswordRequest = new SignupRequestDTO(
