@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+@Log4j2
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -30,13 +32,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
-        // 🔓 Ignora caminhos públicos (login, registro, Swagger)
-        if (path.startsWith("/auth/login")
-                || path.startsWith("/auth/register")
+        if (path.startsWith("/api/v1/signup") // /auth/login
+                || path.startsWith("/api/v1/login") ///auth/register
                 || path.startsWith("/v3/api-docs")
                 || path.startsWith("/swagger-ui")
                 || path.equals("/swagger-ui.html")) {
-            System.out.println("Caminho público, seguindo sem autenticação.");
+            log.info("Caminho público, seguindo sem autenticação.");
             filterChain.doFilter(request, response);
             return;
         }

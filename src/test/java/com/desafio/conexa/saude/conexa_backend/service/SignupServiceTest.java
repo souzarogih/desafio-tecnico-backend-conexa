@@ -103,7 +103,7 @@ class SignupServiceTest {
         SignupRequestDTO invalidPasswordRequest = new SignupRequestDTO(
                 validRequest.email(),
                 "senha123",
-                "senha123",
+                "senha124",
                 validRequest.medicalSpecialty(),
                 validRequest.cpfNumber(),
                 validRequest.dateBirth(),
