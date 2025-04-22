@@ -70,14 +70,11 @@ class LoginServiceTest {
 
     @Test
     void login_shouldReturnToken_whenCredentialsAreValid() {
-        // Arrange
         when(userRepository.findByEmail(loginRequest.email())).thenReturn(Optional.of(user));
         when(jwtService.generateToken(any(UserDetails.class))).thenReturn("jwt-token");
 
-        // Act
         LoginResponse response = loginService.login(loginRequest);
 
-        // Assert
         assertNotNull(response);
         assertEquals("jwt-token", response.token());
         verify(userRepository).save(user);
@@ -86,25 +83,17 @@ class LoginServiceTest {
 
     @Test
     void login_shouldThrowException_whenUserNotFound() {
-        // Arrange
+
         when(userRepository.findByEmail(loginRequest.email())).thenReturn(Optional.empty());
-
-        // Auth mock pra não travar no authentication
         doAnswer(invocation -> null).when(authenticationManager).authenticate(any());
-
-        // Act & Assert
         assertThrows(UsernameNotFoundException.class, () -> loginService.login(loginRequest));
     }
 
     @Test
     void getLoggedInUser_shouldReturnUserDTO_whenUserExists() {
-        // Arrange
+
         when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
-
-        // Act
         UserDTO result = loginService.getLoggedLInUser(user.getEmail());
-
-        // Assert
         assertNotNull(result);
         assertEquals(user.getId(), result.id());
         assertEquals(user.getEmail(), result.email());
@@ -112,10 +101,8 @@ class LoginServiceTest {
 
     @Test
     void getLoggedInUser_shouldThrowException_whenUserDoesNotExist() {
-        // Arrange
-        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
 
-        // Act & Assert
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
         assertThrows(UsernameNotFoundException.class, () -> loginService.getLoggedLInUser("nonexistent@example.com"));
     }
 }

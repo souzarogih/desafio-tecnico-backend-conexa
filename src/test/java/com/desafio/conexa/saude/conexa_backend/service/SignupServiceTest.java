@@ -56,30 +56,24 @@ class SignupServiceTest {
 
     @Test
     void signup_shouldRegisterSuccessfully_whenValidRequest() {
-        // Arrange
+
         when(userRepository.findByEmail(validRequest.email())).thenReturn(Optional.empty());
         when(userRepository.findByCpfNumber(validRequest.cpfNumber())).thenReturn(Optional.empty());
         when(passwordEncoder.encode(validRequest.password())).thenReturn("encoded-password");
         String esperada = "Cadastro com email "+ validRequest.email() + " realizado com sucesso!";
-
-        // Act
         String response = signupService.signup(validRequest);
 
-        // Assert
-//        assertTrue(response.contains("Cadastro com email " + validRequest.email()));
         assertTrue(response.contains(esperada));
         verify(userRepository).save(any(User.class));
     }
 
     @Test
     void signup_shouldThrowException_whenEmailAlreadyExists() {
-        // Arrange
+
         when(userRepository.findByEmail(validRequest.email()))
                 .thenReturn(Optional.of(mock(User.class)));
 
-        // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> signupService.signup(validRequest));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> signupService.signup(validRequest));
 
         assertEquals("E-mail já está cadastrado!", exception.getMessage());
         verify(userRepository, never()).save(any());
@@ -87,14 +81,12 @@ class SignupServiceTest {
 
     @Test
     void signup_shouldThrowException_whenCpfAlreadyExists() {
-        // Arrange
+
         when(userRepository.findByEmail(validRequest.email())).thenReturn(Optional.empty());
         when(userRepository.findByCpfNumber(validRequest.cpfNumber()))
                 .thenReturn(Optional.of(mock(User.class)));
 
-        // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> signupService.signup(validRequest));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> signupService.signup(validRequest));
 
         assertEquals("CPF já está cadastrado!", exception.getMessage());
         verify(userRepository, never()).save(any());
@@ -102,21 +94,19 @@ class SignupServiceTest {
 
     @Test
     void signup_shouldThrowException_whenPasswordsDoNotMatch() {
-        // Arrange
+
         SignupRequestDTO invalidPasswordRequest = new SignupRequestDTO(
                 validRequest.email(),
-                validRequest.cpfNumber(),
                 "senha123",
-                "diferente456", // confirmação diferente
+                "senha123",
                 validRequest.medicalSpecialty(),
+                validRequest.cpfNumber(),
                 validRequest.dateBirth(),
                 validRequest.phoneNumber(),
                 validRequest.role()
         );
 
-        // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> signupService.signup(invalidPasswordRequest));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> signupService.signup(invalidPasswordRequest));
 
         assertEquals("As senhas não coincidem.", exception.getMessage());
         verify(userRepository, never()).save(any());

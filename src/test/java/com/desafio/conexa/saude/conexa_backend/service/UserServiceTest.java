@@ -48,13 +48,9 @@ class UserServiceTest {
 
     @Test
     void loadUserByUsername_shouldReturnUserDetails_whenUserExists() {
-        // Arrange
+
         when(signupRepository.findByEmail("user@example.com")).thenReturn(Optional.of(user));
-
-        // Act
         UserDetails userDetails = userService.loadUserByUsername("user@example.com");
-
-        // Assert
         assertNotNull(userDetails);
         assertEquals("user@example.com", userDetails.getUsername());
         assertEquals("encodedPassword", userDetails.getPassword());
@@ -64,36 +60,26 @@ class UserServiceTest {
 
     @Test
     void loadUserByUsername_shouldThrowException_whenUserNotFound() {
-        // Arrange
-        when(signupRepository.findByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
 
-        // Act & Assert
+        when(signupRepository.findByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
         assertThrows(UsernameNotFoundException.class, () ->
                 userService.loadUserByUsername("nonexistent@example.com"));
     }
 
     @Test
     void findByEmail_shouldReturnUserOptional_whenUserExists() {
-        // Arrange
+
         when(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(user));
-
-        // Act
         Optional<User> result = userService.findByEmail("user@example.com");
-
-        // Assert
         assertTrue(result.isPresent());
         assertEquals("user@example.com", result.get().getEmail());
     }
 
     @Test
     void findByEmail_shouldReturnEmptyOptional_whenUserDoesNotExist() {
-        // Arrange
+
         when(userRepository.findByEmail("missing@example.com")).thenReturn(Optional.empty());
-
-        // Act
         Optional<User> result = userService.findByEmail("missing@example.com");
-
-        // Assert
         assertTrue(result.isEmpty());
     }
 }

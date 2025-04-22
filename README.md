@@ -101,3 +101,9 @@ Em caso de dúvidas sobre o desafio, entre em contato.
 #### Futuras implementações
 - Funcionalidade de gerenciamento para o médico
 - Permitir que o medico defina datas e horários disponíveis para agendamentos
+- Criar atributo para dizer quando o usuario está logado
+
+#### Importante para executar
+- A arquivo init.sql possui comandos sql que utilizei para dá permissão ao usuário da aplicação.
+- O arquivo docker-compose.yml possui o docker que utilizei pra rodar o banco de dados
+- 

@@ -20,24 +20,18 @@ class LogoffServiceTest {
 
     @Test
     void logoff_shouldRevokeTokenSuccessfully_andReturnTrue() {
-        // Arrange
+
         String token = "fake-jwt-token";
-
-        // Act
         boolean result = logoffService.logoff(token);
-
-        // Assert
         assertTrue(result);
         verify(revokedTokensService, times(1)).revokeToken(token);
     }
 
     @Test
     void logoff_shouldThrowException_whenRevokedTokensServiceFails() {
-        // Arrange
+
         String token = "invalid-token";
         doThrow(new RuntimeException("Falha ao revogar token")).when(revokedTokensService).revokeToken(token);
-
-        // Act & Assert
         assertThrows(RuntimeException.class, () -> logoffService.logoff(token));
         verify(revokedTokensService, times(1)).revokeToken(token);
     }

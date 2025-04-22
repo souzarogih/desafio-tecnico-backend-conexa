@@ -35,7 +35,6 @@ class AttendanceServiceTest {
     @Mock
     private UserService userService;
 
-    // Constantes auxiliares
     private final LocalDateTime FUTURE_DATE = LocalDateTime.now().plusDays(1);
     private final LocalDateTime PAST_DATE = LocalDateTime.now().minusDays(1);
     private final String EMAIL = "test@email.com";

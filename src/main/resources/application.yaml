@@ -5,9 +5,6 @@ spring:
     url: jdbc:mysql://localhost:3306/conexa_backend
     username: user
     password: 123mudar
-#    url: ${URL:jdbc:mysql://localhost:3306/conexa_backend}
-#    username: ${USERNAME:user}
-#    password: ${PASSWORD:123mudar}
   jpa:
     hibernate:
       ddl-auto: update

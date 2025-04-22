@@ -44,8 +44,6 @@ public class User {
     @Column(name = "user_status", nullable = false)
     private UserStatus userStatus;
 
-    //criar atributo para dizer quando o usuario está logado
-
     @Column(name = "last_login_at")
     private LocalDateTime lastLoginAt;
 
