@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Log4j2
 @Controller
 @RequestMapping("/attendance")
@@ -36,4 +39,12 @@ public class AttendanceController {
     public ResponseEntity<AttendanceResponse> findById(@PathVariable String attendanceId){
         return ResponseEntity.ok(attendanceService.findById(attendanceId));
     }
+
+    @GetMapping("/appointments/{appointmentDateTime}")
+    public ResponseEntity<List<AttendanceResponse>> findAllByAppointmentDateTime(@PathVariable LocalDate appointmentDateTime){
+        log.info("Consultado agendamentos para o dia {}", appointmentDateTime);
+        return ResponseEntity.ok(attendanceService.findAllByAppointmentDateTime(appointmentDateTime));
+    }
+
+    //controller para habilitar a consulta como realizada
 }
