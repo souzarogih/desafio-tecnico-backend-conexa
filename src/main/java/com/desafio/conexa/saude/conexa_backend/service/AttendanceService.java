@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,13 @@ public class AttendanceService {
 
     public AttendanceResponse create(AttendanceRequest attendanceRequest, String email){
         log.info("Processando o agendamento do paciente: {}", attendanceRequest.patient().getName());
+
+        log.info(":{}", attendanceRequest.appointmentDateTime());
+        log.info(":{}", LocalDateTime.now());
+        if (!attendanceRequest.appointmentDateTime().isAfter(LocalDateTime.now())){
+            log.error(APPOINTMENT_DATE_CANNOT_PAST);
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, APPOINTMENT_DATE_CANNOT_PAST);
+        }
 
         User user = userService.findByEmail(email)
                 .orElseThrow(() -> {
