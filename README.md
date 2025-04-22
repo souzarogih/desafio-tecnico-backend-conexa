@@ -106,4 +106,6 @@ Em caso de dúvidas sobre o desafio, entre em contato.
 #### Importante para executar
 - A arquivo init.sql possui comandos sql que utilizei para dá permissão ao usuário da aplicação.
 - O arquivo docker-compose.yml possui o docker que utilizei pra rodar o banco de dados
-- 
+
+##### Collection para importar no postman
+[Desafio Conexa](https://winter-spaceship-7334.postman.co/workspace/My-Workspace~1d4a7726-67b8-4a64-8fe6-fd62e38a8135/collection/6457984-d952aa3a-711b-46d8-9a5b-a94662de4be9?action=share&creator=6457984&active-environment=6457984-38f26893-a596-42fc-b8fd-25d3f7e8eba1)
