@@ -1,0 +1,44 @@
+package com.desafio.conexa.saude.conexa_backend.service;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+class LogoffServiceTest {
+
+    @Mock
+    private RevokedTokensService revokedTokensService;
+
+    @InjectMocks
+    private LogoffService logoffService;
+
+    @Test
+    void logoff_shouldRevokeTokenSuccessfully_andReturnTrue() {
+        // Arrange
+        String token = "fake-jwt-token";
+
+        // Act
+        boolean result = logoffService.logoff(token);
+
+        // Assert
+        assertTrue(result);
+        verify(revokedTokensService, times(1)).revokeToken(token);
+    }
+
+    @Test
+    void logoff_shouldThrowException_whenRevokedTokensServiceFails() {
+        // Arrange
+        String token = "invalid-token";
+        doThrow(new RuntimeException("Falha ao revogar token")).when(revokedTokensService).revokeToken(token);
+
+        // Act & Assert
+        assertThrows(RuntimeException.class, () -> logoffService.logoff(token));
+        verify(revokedTokensService, times(1)).revokeToken(token);
+    }
+}

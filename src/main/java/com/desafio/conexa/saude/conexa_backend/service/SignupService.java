@@ -1,7 +1,5 @@
 package com.desafio.conexa.saude.conexa_backend.service;
 
-import com.desafio.conexa.saude.conexa_backend.dto.LoginRequest;
-import com.desafio.conexa.saude.conexa_backend.dto.LoginResponse;
 import com.desafio.conexa.saude.conexa_backend.dto.SignupRequestDTO;
 import com.desafio.conexa.saude.conexa_backend.enums.UserStatus;
 import com.desafio.conexa.saude.conexa_backend.model.User;
@@ -12,9 +10,6 @@ import com.desafio.conexa.saude.conexa_backend.utils.UuidGeneratorUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -77,27 +72,4 @@ public class SignupService {
 
         return "Cadastro com email "+user.getEmail() + " realizado com sucesso!";
     }
-
-//    public LoginResponse login(LoginRequest request) {
-//
-//        authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(request.email(), request.password())
-//        );
-//
-//        User user = userRepository.findByEmail(request.email())
-//                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
-//
-////        UserPassword userPassword = userPasswordService.findById(user.getUserPasswordId().getId());
-//
-//        UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
-//                .username(user.getEmail())
-//                .password(user.getUserPassword().getPassword())
-//                .roles(user.getRole().name())
-//                .build();
-//
-//        String token = jwtService.generateToken(userDetails);
-//        return new LoginResponse(token);
-//    }
-
-
 }

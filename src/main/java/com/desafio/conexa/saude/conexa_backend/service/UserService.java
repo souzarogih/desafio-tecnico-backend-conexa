@@ -5,12 +5,10 @@ import com.desafio.conexa.saude.conexa_backend.repository.SignupRepository;
 import com.desafio.conexa.saude.conexa_backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -31,17 +29,6 @@ public class UserService implements UserDetailsService {
                         .roles(usuario.getRole().name())
                         .build())
                 .orElseThrow(() -> new UsernameNotFoundException("Email não encontrado"));
-    }
-
-    public void checkIfUserExistsByEmail(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if (user.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Email já cadastrado");
-        }
-    }
-
-    public Optional<User> findById(String userId){
-        return userRepository.findById(userId);
     }
 
     public Optional<User> findByEmail(String email){

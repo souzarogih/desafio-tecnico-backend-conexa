@@ -1,0 +1,100 @@
+package com.desafio.conexa.saude.conexa_backend.service;
+
+import com.desafio.conexa.saude.conexa_backend.enums.Role;
+import com.desafio.conexa.saude.conexa_backend.model.User;
+import com.desafio.conexa.saude.conexa_backend.model.UserPassword;
+import com.desafio.conexa.saude.conexa_backend.repository.SignupRepository;
+import com.desafio.conexa.saude.conexa_backend.repository.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+class UserServiceTest {
+
+    @Mock
+    private SignupRepository signupRepository;
+
+    @Mock
+    private UserRepository userRepository;
+
+    @InjectMocks
+    private UserService userService;
+
+    private User user;
+
+    @BeforeEach
+    void setUp() {
+        user = User.builder()
+                .id("123")
+                .email("user@example.com")
+                .role(Role.DOCTOR)
+                .build();
+
+        UserPassword userPassword = new UserPassword();
+        userPassword.setPassword("encodedPassword");
+        user.setUserPassword(userPassword);
+    }
+
+    @Test
+    void loadUserByUsername_shouldReturnUserDetails_whenUserExists() {
+        // Arrange
+        when(signupRepository.findByEmail("user@example.com")).thenReturn(Optional.of(user));
+
+        // Act
+        UserDetails userDetails = userService.loadUserByUsername("user@example.com");
+
+        // Assert
+        assertNotNull(userDetails);
+        assertEquals("user@example.com", userDetails.getUsername());
+        assertEquals("encodedPassword", userDetails.getPassword());
+        assertTrue(userDetails.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_DOCTOR")));
+    }
+
+    @Test
+    void loadUserByUsername_shouldThrowException_whenUserNotFound() {
+        // Arrange
+        when(signupRepository.findByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(UsernameNotFoundException.class, () ->
+                userService.loadUserByUsername("nonexistent@example.com"));
+    }
+
+    @Test
+    void findByEmail_shouldReturnUserOptional_whenUserExists() {
+        // Arrange
+        when(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(user));
+
+        // Act
+        Optional<User> result = userService.findByEmail("user@example.com");
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals("user@example.com", result.get().getEmail());
+    }
+
+    @Test
+    void findByEmail_shouldReturnEmptyOptional_whenUserDoesNotExist() {
+        // Arrange
+        when(userRepository.findByEmail("missing@example.com")).thenReturn(Optional.empty());
+
+        // Act
+        Optional<User> result = userService.findByEmail("missing@example.com");
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+}
+
