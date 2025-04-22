@@ -29,9 +29,6 @@ public class AttendanceService {
     public AttendanceResponse create(AttendanceRequest attendanceRequest, String email){
         log.info("Processando o agendamento do paciente: {}", attendanceRequest.patient().getName());
 
-
-        //precisa verificar se essa data e horário está disponível para o medico
-
         User user = userService.findByEmail(email)
                 .orElseThrow(() -> {
                     log.error(USER_NOT_FOUND);
@@ -75,10 +72,11 @@ public class AttendanceService {
     public AttendanceResponse findById(String attendanceId){
         Attendance attendance = attendanceRepository.findById(attendanceId)
                 .orElseThrow(() -> {
-                    log.info(APPOINTMENT_NOT_FOUND);
+                    log.error(APPOINTMENT_NOT_FOUND);
                     return new ResponseStatusException(HttpStatus.NOT_FOUND, APPOINTMENT_NOT_FOUND);
                 });
 
+        log.info("Consulta localizada com sucesso: id:{} paciente:{}", attendance.getId(), attendance.getPatient());
         return new AttendanceResponse(
                 attendance.getId(),
                 attendance.getAppointmentDateTime(),
@@ -101,10 +99,11 @@ public class AttendanceService {
     }
 
     public AttendanceResponse carryOutMedicalConsultationService(String attendanceId){
+        log.info("Habiltiando a consulta como realizada");
 
         Attendance attendance = attendanceRepository.findById(attendanceId)
                 .orElseThrow(() -> {
-                    log.info(APPOINTMENT_NOT_FOUND);
+                    log.error(APPOINTMENT_NOT_FOUND);
                     return new ResponseStatusException(HttpStatus.NOT_FOUND, APPOINTMENT_NOT_FOUND);
                 });
 

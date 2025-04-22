@@ -97,3 +97,7 @@ Em caso de dúvidas sobre o desafio, entre em contato.
 ```bash
 ./mvnw spring-boot:run
 ```
+
+#### Futuras implementações
+- Funcionalidade de gerenciamento para o médico
+- Permitir que o medico defina datas e horários disponíveis para agendamentos
