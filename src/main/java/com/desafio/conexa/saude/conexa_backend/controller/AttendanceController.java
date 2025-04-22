@@ -47,4 +47,10 @@ public class AttendanceController {
     }
 
     //controller para habilitar a consulta como realizada
+    @PatchMapping("/attendances/{attendanceId}/complete")
+    public ResponseEntity<AttendanceResponse> enableMedicalConsultation(@PathVariable String attendanceId){
+        log.info("Recebendo requisição para realizar o atendimento de uma consulta.");
+
+        return ResponseEntity.ok(attendanceService.carryOutMedicalConsultationService(attendanceId));
+    }
 }

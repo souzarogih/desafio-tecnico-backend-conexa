@@ -41,4 +41,7 @@ public class Attendance {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(name = "service_provided", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean serviceProvided;
+
 }

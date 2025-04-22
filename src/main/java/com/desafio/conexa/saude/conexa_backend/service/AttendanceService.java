@@ -60,7 +60,8 @@ public class AttendanceService {
                         attendanceRequest.appointmentDateTime().toLocalDate(),
                         attendanceRequest.appointmentDateTime().toLocalTime(),
                         attendanceRequest.patient(),
-                        user));
+                        user,
+                        false));
 
         return new AttendanceResponse(
             attendance.getId(),
@@ -97,5 +98,29 @@ public class AttendanceService {
         log.info("Retorando a lista de atendimentos para o dia informado.");
 
         return attendances;
+    }
+
+    public AttendanceResponse carryOutMedicalConsultationService(String attendanceId){
+
+        Attendance attendance = attendanceRepository.findById(attendanceId)
+                .orElseThrow(() -> {
+                    log.info(APPOINTMENT_NOT_FOUND);
+                    return new ResponseStatusException(HttpStatus.NOT_FOUND, APPOINTMENT_NOT_FOUND);
+                });
+
+        if (!attendance.isServiceProvided()){
+            attendance.setServiceProvided(true);
+        }
+
+        Attendance attendanceUpdated = attendanceRepository.save(attendance);
+        log.info("Atendimento confirmado: {} em {}", attendanceUpdated.getPatient(), attendanceUpdated.getAppointmentDate());
+
+        return new AttendanceResponse(
+                attendanceUpdated.getId(),
+                attendanceUpdated.getAppointmentDateTime(),
+                attendanceUpdated.getPatient(),
+                attendanceUpdated.getAppointmentDate(),
+                attendanceUpdated.getAppointmentTime()
+        );
     }
 }
